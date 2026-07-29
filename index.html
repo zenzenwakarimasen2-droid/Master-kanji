@@ -115,7 +115,7 @@
 
         #counter { 
             margin-bottom: 25px; 
-            font-size: 14px; 
+            font-size: 10px; 
             color: #888; 
             letter-spacing: 2px; 
             font-weight: bold;
@@ -131,7 +131,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 40px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 30px;
             text-align: center;
@@ -161,7 +161,7 @@
             border: 2px solid #fff;
             border-radius: 10px;
             padding: 25px 10px;
-            font-size: 20px;
+            font-size: 14px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -192,6 +192,32 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+        }
+
+        button.prev-btn {
+            background-color: transparent;
+            border: 2px solid #ffd700; 
+            color: #ffd700;
+            width: 100%;
+            padding: 14px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button.prev-btn:active {
+            background-color: #ffd700;
+            color: #000;
+        }
+
+        button.prev-btn:disabled {
+            border-color: #555;
+            color: #555;
+            cursor: not-allowed;
+            opacity: 0.5;
         }
 
         button.shuffle-btn {
@@ -249,9 +275,8 @@
             <div class="menu-card" data-category="kanji_n5">
                 <h3>Shiken kanji</h3><span>bab 9</span>
             </div>
-            <!-- Menu lain sengaja tetep ada, tapi datanya harus kamu update formatnya nanti -->
             <div class="menu-card" data-category="kanji_n5_p2">
-                <h3>atmin berusaha improve</h3><span>coming soon</span>
+                <h3>Shiken bunpou</h3><span>bab 9</span>
             </div>
         </div>
     </div>
@@ -271,6 +296,7 @@
         </div>
 
         <div class="controls">
+            <button id="prevBtn" class="prev-btn">⏮ Soal Sebelumnya</button>
             <button id="shuffleBtn" class="shuffle-btn">🎲 Acak Urutan Soal</button>
             <button id="backBtn" class="back-btn">⬅ Kembali ke Menu</button>
         </div>
@@ -280,220 +306,81 @@
         // --- DATABASE FORMAT BARU ---
         const flashcardData = {
             kanji_n5: [
-  {
-    question: "にほんごがっこう",
-    correct: "日本語学校",
-    wrong: ["日本学校", "日本語学行", "日木語学校"]
-  },
-  {
-    question: "こうこう",
-    correct: "高校",
-    wrong: ["高交", "校高", "高校う"]
-  },
-  {
-    question: "じょうず",
-    correct: "上手",
-    wrong: ["上下", "手上", "上手い"]
-  },
-  {
-    question: "かん",
-    correct: "間",
-    wrong: ["問", "門", "聞"]
-  },
-  {
-    question: "じぶん",
-    correct: "自分",
-    wrong: ["目分", "自文", "白分"]
-  },
-  {
-    question: "だいがく",
-    correct: "大学",
-    wrong: ["大字", "学大", "犬学"]
-  },
-  {
-    question: "べんきょう",
-    correct: "勉強",
-    wrong: ["免強", "勉京", "強勉"]
-  },
-  {
-    question: "かんたん",
-    correct: "簡単",
-    wrong: ["簡短", "間単", "簡旦"]
-  },
-  {
-    question: "むずかしい",
-    correct: "難しい",
-    wrong: ["灘しい", "難かしい", "難し"]
-  },
-  {
-    question: "にている",
-    correct: "似ている",
-    wrong: ["以ている", "似でいる", "似て居る"]
-  },
-  {
-    question: "ちがう",
-    correct: "違う",
-    wrong: ["達う", "遠う", "違える"]
-  },
-  {
-    question: "とくい",
-    correct: "得意",
-    wrong: ["特意", "徳意", "得異"]
-  },
-  {
-    question: "にがて",
-    correct: "苦手",
-    wrong: ["若手", "苦守", "苦者"]
-  },
-  {
-    question: "ぶんぽう",
-    correct: "文法",
-    wrong: ["文章", "文学", "文方"]
-  },
-  {
-    question: "はつおん",
-    correct: "発音",
-    wrong: ["発売", "発言", "発声"]
-  },
-  {
-    question: "もじ",
-    correct: "文字",
-    wrong: ["文宇", "文字列", "文子"]
-  },
-  {
-    question: "かんじ",
-    correct: "漢字",
-    wrong: ["感じ", "漢学", "漢寺"]
-  },
-  {
-    question: "かいわ",
-    correct: "会話",
-    wrong: ["会話す", "会詰", "会読"]
-  },
-  {
-    question: "おぼえる",
-    correct: "覚える",
-    wrong: ["党える", "覚る", "学える"]
-  },
-  {
-    question: "おしえる",
-    correct: "教える",
-    wrong: ["数える", "教る", "数える"]
-  },
-  {
-    question: "じしょ",
-    correct: "辞書",
-    wrong: ["字書", "辞典", "辞暑"]
-  },
-  {
-    question: "かす",
-    correct: "貸す",
-    wrong: ["貨す", "賃す", "貸し"]
-  },
-  {
-    question: "みせる",
-    correct: "見せる",
-    wrong: ["看せる", "見える", "視せる"]
-  },
-  {
-    question: "せつめいする",
-    correct: "説明する",
-    wrong: ["説名する", "説明します", "設明する"]
-  },
-  {
-    question: "かみ",
-    correct: "紙",
-    wrong: ["神", "髪", "低"]
-  },
-  {
-    question: "かく",
-    correct: "書く",
-    wrong: ["描く", "書ける", "書き"]
-  },
-  {
-    question: "いう",
-    correct: "言う",
-    wrong: ["話す", "語る", "言える"]
-  },
-  {
-    question: "かた",
-    correct: "方",
-    wrong: ["形", "向", "万"]
-  },
-  {
-    question: "しょるい",
-    correct: "書類",
-    wrong: ["書顔", "資料", "書数"]
-  },
-  {
-    question: "きょうかしょ",
-    correct: "教科書",
-    wrong: ["教料書", "教科本", "教材書"]
-  },
-  {
-    question: "じしん",
-    correct: "自信",
-    wrong: ["自身", "自慎", "白信"]
-  },
-  {
-    question: "れんしゅう",
-    correct: "練習",
-    wrong: ["練集", "練修", "練習う"]
-  },
-  {
-    question: "さがす",
-    correct: "探す",
-    wrong: ["捜す", "採す", "探し"]
-  },
-  {
-    question: "なんかいも",
-    correct: "何回も",
-    wrong: ["何度も", "何会も", "何階も"]
-  },
-  {
-    question: "きょうしつ",
-    correct: "教室",
-    wrong: ["教屋", "教事", "教室う"]
-  },
-  {
-    question: "むりょう",
-    correct: "無料",
-    wrong: ["無科", "無料う", "無費"]
-  },
-  {
-    question: "せんせい",
-    correct: "先生",
-    wrong: ["先生", "先生い", "学生"]
-  },
-  {
-    question: "ちえ",
-    correct: "知恵",
-    wrong: ["智慧", "知思", "知識"]
-  },
-  {
-    question: "はいしゃくする",
-    correct: "拝借する",
-    wrong: ["拝貸する", "借用する", "排借する"]
-  },
-  {
-    question: "けんさく",
-    correct: "検索",
-    wrong: ["検察", "検索", "検索す"]
-  },
-  {
-    question: "しつもん",
-    correct: "質問",
-    wrong: ["質門", "質問する", "問質"]
-  },
-  {
-    question: "そうだん",
-    correct: "相談",
-    wrong: ["相談", "相談する", "相談者"]
-  }
-                // Lanjutin sendiri ya Reza buat soal-soal lainnya pakai format kayak di atas!
+  { question: "にほんごがっこう", correct: "日本語学校", wrong: ["日本学校", "日本語学行", "日木語学校"] },
+  { question: "こうこう", correct: "高校", wrong: ["高交", "校高", "高校う"] },
+  { question: "じょうず", correct: "上手", wrong: ["上下", "手上", "上手い"] },
+  { question: "かん", correct: "間", wrong: ["問", "門", "聞"] },
+  { question: "じぶん", correct: "自分", wrong: ["目分", "自文", "白分"] },
+  { question: "だいがく", correct: "大学", wrong: ["大字", "学大", "犬学"] },
+  { question: "べんきょう", correct: "勉強", wrong: ["免強", "勉京", "強勉"] },
+  { question: "かんたん", correct: "簡単", wrong: ["簡短", "間単", "簡旦"] },
+  { question: "むずかしい", correct: "難しい", wrong: ["灘しい", "難かしい", "難し"] },
+  { question: "にている", correct: "似ている", wrong: ["以ている", "似でいる", "似て居る"] },
+  { question: "ちがう", correct: "違う", wrong: ["達う", "遠う", "違える"] },
+  { question: "とくい", correct: "得意", wrong: ["特意", "徳意", "得異"] },
+  { question: "にがて", correct: "苦手", wrong: ["若手", "苦守", "苦者"] },
+  { question: "ぶんぽう", correct: "文法", wrong: ["文章", "文学", "文方"] },
+  { question: "はつおん", correct: "発音", wrong: ["発売", "発言", "発声"] },
+  { question: "もじ", correct: "文字", wrong: ["文宇", "文字列", "文子"] },
+  { question: "かんじ", correct: "漢字", wrong: ["感じ", "漢学", "漢寺"] },
+  { question: "かいわ", correct: "会話", wrong: ["会話す", "会詰", "会読"] },
+  { question: "おぼえる", correct: "覚える", wrong: ["党える", "覚る", "学える"] },
+  { question: "おしえる", correct: "教える", wrong: ["数える", "教る", "数える"] },
+  { question: "じしょ", correct: "辞書", wrong: ["字書", "辞典", "辞暑"] },
+  { question: "かす", correct: "貸す", wrong: ["貨す", "賃す", "貸し"] },
+  { question: "みせる", correct: "見せる", wrong: ["看せる", "見える", "視せる"] },
+  { question: "せつめいする", correct: "説明する", wrong: ["説名する", "説明します", "設明する"] },
+  { question: "かみ", correct: "紙", wrong: ["神", "髪", "低"] },
+  { question: "かく", correct: "書く", wrong: ["描く", "書ける", "書き"] },
+  { question: "いう", correct: "言う", wrong: ["話す", "語る", "言える"] },
+  { question: "かた", correct: "方", wrong: ["形", "向", "万"] },
+  { question: "しょるい", correct: "書類", wrong: ["書顔", "資料", "書数"] },
+  { question: "きょうかしょ", correct: "教科書", wrong: ["教料書", "教科本", "教材書"] },
+  { question: "じしん", correct: "自信", wrong: ["自身", "自慎", "白信"] },
+  { question: "れんしゅう", correct: "練習", wrong: ["練集", "練修", "練習う"] },
+  { question: "さがす", correct: "探す", wrong: ["捜す", "採す", "探し"] },
+  { question: "なんかいも", correct: "何回も", wrong: ["何度も", "何会も", "何階も"] },
+  { question: "きょうしつ", correct: "教室", wrong: ["教屋", "教事", "教室う"] },
+  { question: "むりょう", correct: "無料", wrong: ["無科", "無料う", "無費"] },
+  { question: "せんせい", correct: "先生", wrong: ["先生", "先生い", "学生"] },
+  { question: "ちえ", correct: "知恵", wrong: ["智慧", "知思", "知識"] },
+  { question: "はいしゃくする", correct: "拝借する", wrong: ["拝貸する", "借用する", "排借する"] },
+  { question: "けんさく", correct: "検索", wrong: ["検察", "検索", "検索す"] },
+  { question: "しつもん", correct: "質問", wrong: ["質門", "質問する", "問質"] },
+  { question: "そうだん", correct: "相談", wrong: ["相談", "相談する", "相談者"] }
             ],
-            // Database lama harus diubah formatnya kayak di atas kalau mau dipake
-            kanji_n5_p2: []
+            kanji_n5_p2: [ 
+  { "question": "アニメ [ ] にほんごを べんきょうしました。", "correct": "で", "wrong": ["を", "に", "が"] },
+  { "question": "Apa fungsi partikel 「で」 dalam kalimat 「ネットでべんきょうしました」?", "correct": "Menunjukkan cara atau metode", "wrong": ["Menunjukkan tempat kegiatan", "Menunjukkan waktu", "Menunjukkan arah tujuan"] },
+  { "question": "にほんごは [ ] が むずかしいです。", "correct": "もじ", "wrong": ["もじを", "もじは", "もじに"] },
+  { "question": "にほんごは [ ] が たいへんです。", "correct": "はなすの", "wrong": ["はなす", "はなします", "はなして"] },
+  { "question": "ひらがなは すきです。[ ] は にがてです。", "correct": "カタカナ", "wrong": ["カタカナが", "カタカナを", "カタカナも"] },
+  { "question": "にほんごを チェックして [ ] ？", "correct": "もらえませんか", "wrong": ["ください", "ますか", "ましょうか"] },
+  { "question": "Bagaimana cara bertanya 'bagaimana cara belajar' secara khusus?", "correct": "どうやって", "wrong": ["どこで", "なにで", "いつ"] },
+  { "question": "この かんじの [ ] を おしえて もらえませんか？", "correct": "よみかた", "wrong": ["よむかた", "よみますかた", "よんでかた"] },
+  { "question": "えいごは [ ] が かんたんです。", "correct": "ぶんぽう", "wrong": ["ぶんぽうを", "ぶんぽうは", "ぶんぽうに"] },
+  { "question": "あたらしい きょうかしょを [ ] もらえませんか？", "correct": "みせて", "wrong": ["みせ", "みせる", "みした"] },
+  { "question": "じしょの [ ] を おしえて ください。", "correct": "つかいかた", "wrong": ["つかいますかた", "つかってかた", "つかえかた"] },
+  { "question": "タイごは もじを [ ] のが むずかしいです。", "correct": "おぼえる", "wrong": ["おぼえて", "おぼえます", "おぼえ"] },
+  { "question": "にほんごは、よむのは むずかしいです。[ ]、かいわは とくいです。", "correct": "でも", "wrong": ["そして", "だから", "それで"] },
+  { "question": "Apa bentuk Masu dari 'Cara Menulis' (Kakikata)?", "correct": "かきます", "wrong": ["かくます", "かいてます", "かいたます"] },
+  { "question": "アプリ [ ] べんきょうしました。", "correct": "で", "wrong": ["を", "が", "は"] },
+  { "question": "Manakah yang lebih halus untuk meminta bantuan?", "correct": "〜てもらえませんか", "wrong": ["〜てください", "〜なさい", "〜て"] },
+  { "question": "にほんごの いい れんしゅうの [ ] が ありますか？", "correct": "しかた", "wrong": ["しするかた", "しのかた", "するのかた"] },
+  { "question": "にほんごがっこう [ ] べんきょうしました。", "correct": "で", "wrong": ["を", "に", "へ"] },
+  { "question": "えいごは たんごを おぼえる [ ] たいへんです。", "correct": "のが", "wrong": ["は", "を", "に"] },
+  { "question": "この かんじを [ ] もらえませんか？", "correct": "かいて", "wrong": ["かき", "かく", "かいた"] },
+  { "question": "ひらがな [ ] すきです。カタカナは にがてです。", "correct": "は", "wrong": ["が", "を", "の"] },
+  { "question": "せんせい、せつめい [ ] もらえませんか？", "correct": "して", "wrong": ["し", "する", "した"] },
+  { "question": "バス [ ] かいしゃに いきます。", "correct": "で", "wrong": ["を", "に", "が"] },
+  { "question": "にほんごは [ ] が とくいですか？", "correct": "なに", "wrong": ["どこ", "いつ", "だれ"] },
+  { "question": "ごはんの [ ] を おしえて ください。", "correct": "たべかた", "wrong": ["たべるかた", "たべてかた", "たべますかた"] },
+  { "question": "ほん [ ] べんきょうしました。", "correct": "で", "wrong": ["を", "が", "に"] },
+  { "question": "がっこうへの [ ] を おしえて もらえませんか？", "correct": "いきかた", "wrong": ["いくかた", "いってかた", "いきますかた"] },
+  { "question": "にほんごは はつおん [ ] むずかしいです。", "correct": "が", "wrong": ["を", "に", "で"] },
+  { "question": "ちょっと じしょを [ ] もらえませんか？", "correct": "かして", "wrong": ["かし", "かす", "かした"] },
+  { "question": "にほんごは ぶんぽうは かんたんです。[ ] かんじは むずかしいです。", "correct": "でも", "wrong": ["それで", "そして", "だから"] }
+            ], 
         };
 
         const homePage = document.getElementById('home-page');
@@ -505,6 +392,7 @@
         const promptText = document.querySelector('.prompt-text');
         const shuffleBtn = document.getElementById('shuffleBtn');
         const backBtn = document.getElementById('backBtn');
+        const prevBtn = document.getElementById('prevBtn');
         
         let currentDeck = [];
         let currentIndex = 0;
@@ -536,21 +424,26 @@
                 optionsGrid.innerHTML = "";
                 promptText.style.display = 'none';
                 counterEl.innerText = "0 / 0";
+                
+                prevBtn.disabled = false;
                 return;
+            }
+
+            if (currentIndex === 0) {
+                prevBtn.disabled = true;
+            } else {
+                prevBtn.disabled = false;
             }
 
             promptText.style.display = 'block';
             const qData = currentDeck[currentIndex];
             
-            // Ambil dari database format baru
             questionBox.innerText = qData.question;
             currentCorrectAnswer = qData.correct;
             counterEl.innerText = `${currentIndex + 1} / ${currentDeck.length}`;
 
-            // Gabungin jawaban bener dan 3 jawaban salah
             let options = [qData.correct, ...qData.wrong];
 
-            // Acak posisi pilihan ganda A, B, C, D nya
             options = options.sort(() => 0.5 - Math.random());
 
             optionsGrid.innerHTML = '';
@@ -600,6 +493,14 @@
             quizPage.style.display = 'none';
             homePage.style.display = 'flex';
             window.scrollTo(0,0);
+        });
+
+        prevBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderQuestion();
+            }
         });
 
         document.querySelectorAll('.menu-card').forEach(menu => {
