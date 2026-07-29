@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Flash card - Belajar Bahasa Jepang</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background-color: #0a0a0a; 
+            color: #fff; 
+            font-family: 'Courier New', Courier, monospace; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: flex-start;
+            min-height: 100vh; 
+            overflow-x: hidden;
+        }
+
+        /* Animasi Transisi Halus */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.4s ease forwards;
+        }
+        
+        /* --- STYLE HALAMAN UTAMA (HOME) --- */
+        #home-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 40px 20px;
+        }
+
+        .main-title {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-align: center;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        .subtitle {
+            font-size: 13px;
+            color: #aaa;
+            margin-bottom: 35px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            padding-bottom: 40px;
+        }
+
+        .menu-card {
+            background-color: #111;
+            border: 2px solid #333;
+            border-radius: 12px;
+            padding: 20px 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 110px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .menu-card:active {
+            background-color: #fff;
+            color: #000;
+            transform: scale(0.95);
+        }
+
+        .menu-card h3 { font-size: 14px; margin-bottom: 5px; letter-spacing: 1px; }
+        .menu-card span { font-size: 11px; color: #888; }
+        .menu-card:active span { color: #333; }
+        
+        /* --- STYLE HALAMAN KUIS (PILIHAN GANDA) --- */
+        #quiz-page {
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            min-height: 100vh;
+            padding: 20px;
+            background: #0a0a0a;
+        }
+
+        .title {
+            font-size: 18px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            text-align: center;
+            color: #ffd700;
+        }
+
+        #counter { 
+            margin-bottom: 25px; 
+            font-size: 14px; 
+            color: #888; 
+            letter-spacing: 2px; 
+            font-weight: bold;
+        }
+
+        .question-box {
+            width: 100%;
+            max-width: 320px;
+            min-height: 140px;
+            background-color: #1a1a1a;
+            border: 2px solid #fff;
+            border-radius: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .prompt-text {
+            color: #ffd700;
+            font-size: 14px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 320px;
+            margin-bottom: 40px;
+        }
+
+        .option-btn {
+            background-color: #111;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 10px;
+            padding: 25px 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            font-family: inherit;
+        }
+
+        .option-btn:active {
+            transform: scale(0.95);
+        }
+
+        .option-btn.correct {
+            border-color: #55ff55;
+            background-color: rgba(85, 255, 85, 0.15);
+            color: #55ff55;
+        }
+
+        .option-btn.wrong {
+            border-color: #ff5555;
+            background-color: rgba(255, 85, 85, 0.15);
+            color: #ff5555;
+        }
+
+        .controls {
+            width: 100%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        button.shuffle-btn {
+            background-color: transparent;
+            border: 2px solid #55aaff;
+            color: #55aaff;
+            width: 100%;
+            padding: 14px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        button.shuffle-btn:active {
+            background-color: #55aaff;
+            color: #000;
+        }
+
+        button.back-btn { 
+            background-color: transparent;
+            border: 2px solid #ff5555; 
+            color: #ff5555; 
+            width: 100%; 
+            padding: 14px 15px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        button.back-btn:active { 
+            background-color: #ff5555; 
+            color: #000; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="home-page" class="animate-fade">
+        <div class="main-title">Kuis Pilihan Ganda<br>kelas 赤月🔥🔥</div>
+        <div class="subtitle">
+            Pilih kategori yang ingin dilatih.<br><br>
+            <strong>Cara Main:</strong><br>
+            Baca pertanyaan di atas, lalu<br>
+            pilih jawaban yang bener di bawah!
+        </div>
+        
+        <div class="menu-grid">
+            <div class="menu-card" data-category="kanji_n5">
+                <h3>Shiken kanji</h3><span>bab 8</span>
+            </div>
+            <!-- Menu lain sengaja tetep ada, tapi datanya harus kamu update formatnya nanti -->
+            <div class="menu-card" data-category="kanji_n5_p2">
+                <h3>Belum di edit</h3><span>isi teks</span>
+            </div>
+        </div>
+    </div>
+    
+    <div id="quiz-page" class="animate-fade">
+        <div class="title" id="deckTitle">-</div>
+        <div id="counter">1 / 0</div>
+
+        <div class="question-box" id="questionBox">
+            <!-- Pertanyaan muncul di sini -->
+        </div>
+
+        <div class="prompt-text">jawaban yang bener?</div>
+
+        <div class="options-grid" id="optionsGrid">
+            <!-- Pilihan ganda di-generate lewat JS -->
+        </div>
+
+        <div class="controls">
+            <button id="shuffleBtn" class="shuffle-btn">🎲 Acak Urutan Soal</button>
+            <button id="backBtn" class="back-btn">⬅ Kembali ke Menu</button>
+        </div>
+    </div>
+
+    <script>
+        // --- DATABASE FORMAT BARU ---
+        const flashcardData = {
+            kanji_n5: [
+  {
+    question: "にほんごがっこう",
+    correct: "日本語学校",
+    wrong: ["日本学校", "日本語学行", "日木語学校"]
+  },
+  {
+    question: "こうこう",
+    correct: "高校",
+    wrong: ["高交", "校高", "高校う"]
+  },
+  {
+    question: "じょうず",
+    correct: "上手",
+    wrong: ["上下", "手上", "上手い"]
+  },
+  {
+    question: "かん",
+    correct: "間",
+    wrong: ["問", "門", "聞"]
+  },
+  {
+    question: "じぶん",
+    correct: "自分",
+    wrong: ["目分", "自文", "白分"]
+  },
+  {
+    question: "だいがく",
+    correct: "大学",
+    wrong: ["大字", "学大", "犬学"]
+  },
+  {
+    question: "べんきょう",
+    correct: "勉強",
+    wrong: ["免強", "勉京", "強勉"]
+  },
+  {
+    question: "かんたん",
+    correct: "簡単",
+    wrong: ["簡短", "間単", "簡旦"]
+  },
+  {
+    question: "むずかしい",
+    correct: "難しい",
+    wrong: ["灘しい", "難かしい", "難し"]
+  },
+  {
+    question: "にている",
+    correct: "似ている",
+    wrong: ["以ている", "似でいる", "似て居る"]
+  },
+  {
+    question: "ちがう",
+    correct: "違う",
+    wrong: ["達う", "遠う", "違える"]
+  },
+  {
+    question: "とくい",
+    correct: "得意",
+    wrong: ["特意", "徳意", "得異"]
+  },
+  {
+    question: "にがて",
+    correct: "苦手",
+    wrong: ["若手", "苦守", "苦者"]
+  },
+  {
+    question: "ぶんぽう",
+    correct: "文法",
+    wrong: ["文章", "文学", "文方"]
+  },
+  {
+    question: "はつおん",
+    correct: "発音",
+    wrong: ["発売", "発言", "発声"]
+  },
+  {
+    question: "もじ",
+    correct: "文字",
+    wrong: ["文宇", "文字列", "文子"]
+  },
+  {
+    question: "かんじ",
+    correct: "漢字",
+    wrong: ["感じ", "漢学", "漢寺"]
+  },
+  {
+    question: "かいわ",
+    correct: "会話",
+    wrong: ["会話す", "会詰", "会読"]
+  },
+  {
+    question: "おぼえる",
+    correct: "覚える",
+    wrong: ["党える", "覚る", "学える"]
+  },
+  {
+    question: "おしえる",
+    correct: "教える",
+    wrong: ["数える", "教る", "数える"]
+  },
+  {
+    question: "じしょ",
+    correct: "辞書",
+    wrong: ["字書", "辞典", "辞暑"]
+  },
+  {
+    question: "かす",
+    correct: "貸す",
+    wrong: ["貨す", "賃す", "貸し"]
+  },
+  {
+    question: "みせる",
+    correct: "見せる",
+    wrong: ["看せる", "見える", "視せる"]
+  },
+  {
+    question: "せつめいする",
+    correct: "説明する",
+    wrong: ["説名する", "説明します", "設明する"]
+  },
+  {
+    question: "かみ",
+    correct: "紙",
+    wrong: ["神", "髪", "低"]
+  },
+  {
+    question: "かく",
+    correct: "書く",
+    wrong: ["描く", "書ける", "書き"]
+  },
+  {
+    question: "いう",
+    correct: "言う",
+    wrong: ["話す", "語る", "言える"]
+  },
+  {
+    question: "かた",
+    correct: "方",
+    wrong: ["形", "向", "万"]
+  },
+  {
+    question: "しょるい",
+    correct: "書類",
+    wrong: ["書顔", "資料", "書数"]
+  },
+  {
+    question: "きょうかしょ",
+    correct: "教科書",
+    wrong: ["教料書", "教科本", "教材書"]
+  },
+  {
+    question: "じしん",
+    correct: "自信",
+    wrong: ["自身", "自慎", "白信"]
+  },
+  {
+    question: "れんしゅう",
+    correct: "練習",
+    wrong: ["練集", "練修", "練習う"]
+  },
+  {
+    question: "さがす",
+    correct: "探す",
+    wrong: ["捜す", "採す", "探し"]
+  },
+  {
+    question: "なんかいも",
+    correct: "何回も",
+    wrong: ["何度も", "何会も", "何階も"]
+  },
+  {
+    question: "きょうしつ",
+    correct: "教室",
+    wrong: ["教屋", "教事", "教室う"]
+  },
+  {
+    question: "むりょう",
+    correct: "無料",
+    wrong: ["無科", "無料う", "無費"]
+  },
+  {
+    question: "せんせい",
+    correct: "先生",
+    wrong: ["先生", "先生い", "学生"]
+  },
+  {
+    question: "ちえ",
+    correct: "知恵",
+    wrong: ["智慧", "知思", "知識"]
+  },
+  {
+    question: "はいしゃくする",
+    correct: "拝借する",
+    wrong: ["拝貸する", "借用する", "排借する"]
+  },
+  {
+    question: "けんさく",
+    correct: "検索",
+    wrong: ["検察", "検索", "検索す"]
+  },
+  {
+    question: "しつもん",
+    correct: "質問",
+    wrong: ["質門", "質問する", "問質"]
+  },
+  {
+    question: "そうだん",
+    correct: "相談",
+    wrong: ["相談", "相談する", "相談者"]
+  }
+                // Lanjutin sendiri ya Reza buat soal-soal lainnya pakai format kayak di atas!
+            ],
+            // Database lama harus diubah formatnya kayak di atas kalau mau dipake
+            kanji_n5_p2: []
+        };
+
+        const homePage = document.getElementById('home-page');
+        const quizPage = document.getElementById('quiz-page');
+        const deckTitle = document.getElementById('deckTitle');
+        const counterEl = document.getElementById('counter');
+        const questionBox = document.getElementById('questionBox');
+        const optionsGrid = document.getElementById('optionsGrid');
+        const promptText = document.querySelector('.prompt-text');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+        const backBtn = document.getElementById('backBtn');
+        
+        let currentDeck = [];
+        let currentIndex = 0;
+        let currentCorrectAnswer = "";
+
+        function loadCategory(categoryKey, titleText, subtitleText) {
+            const dataSet = flashcardData[categoryKey] || [];
+            
+            if(dataSet.length === 0) {
+                alert("early acces, bentar saya coba sempurnain");
+                return;
+            }
+
+            currentDeck = [...dataSet];
+            currentIndex = 0;
+
+            deckTitle.innerText = `${titleText} - ${subtitleText}`;
+            
+            homePage.style.display = 'none';
+            quizPage.style.display = 'flex';
+            window.scrollTo(0,0);
+            
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            if (currentIndex >= currentDeck.length) {
+                questionBox.innerHTML = "<div style='font-size:24px'>すごい🥳🤩🔥!<br><br>Kuis Selesai!</div>";
+                optionsGrid.innerHTML = "";
+                promptText.style.display = 'none';
+                counterEl.innerText = "0 / 0";
+                return;
+            }
+
+            promptText.style.display = 'block';
+            const qData = currentDeck[currentIndex];
+            
+            // Ambil dari database format baru
+            questionBox.innerText = qData.question;
+            currentCorrectAnswer = qData.correct;
+            counterEl.innerText = `${currentIndex + 1} / ${currentDeck.length}`;
+
+            // Gabungin jawaban bener dan 3 jawaban salah
+            let options = [qData.correct, ...qData.wrong];
+
+            // Acak posisi pilihan ganda A, B, C, D nya
+            options = options.sort(() => 0.5 - Math.random());
+
+            optionsGrid.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(btn, opt);
+                optionsGrid.appendChild(btn);
+            });
+        }
+
+        function handleAnswer(btn, selectedAns) {
+            const allBtns = document.querySelectorAll('.option-btn');
+            
+            allBtns.forEach(b => b.style.pointerEvents = 'none');
+
+            if (selectedAns === currentCorrectAnswer) {
+                btn.classList.add('correct');
+            } else {
+                btn.classList.add('wrong');
+                allBtns.forEach(b => {
+                    if (b.innerText === currentCorrectAnswer) {
+                        b.classList.add('correct');
+                    }
+                });
+            }
+
+            setTimeout(() => {
+                currentIndex++;
+                renderQuestion();
+            }, 1200);
+        }
+
+        // --- EVENTS ---
+        shuffleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (currentDeck.length > 0) {
+                currentDeck = currentDeck.sort(() => 0.5 - Math.random());
+                currentIndex = 0;
+                renderQuestion();
+            }
+        });
+        
+        backBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            quizPage.style.display = 'none';
+            homePage.style.display = 'flex';
+            window.scrollTo(0,0);
+        });
+
+        document.querySelectorAll('.menu-card').forEach(menu => {
+            menu.addEventListener('click', () => {
+                const category = menu.getAttribute('data-category');
+                const title = menu.querySelector('h3').innerText;
+                const subtitle = menu.querySelector('span').innerText;
+                loadCategory(category, title, subtitle);
+            });
+        });
+    </script>
+</body>
+</html>
