@@ -35,12 +35,12 @@
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 400px;
+            max-width: 1100px;
             padding: 40px 20px;
         }
 
         .main-title {
-            font-size: 24px;
+            font-size: clamp(20px, 3vw, 30px);
             font-weight: bold;
             letter-spacing: 2px;
             margin-bottom: 10px;
@@ -60,7 +60,7 @@
 
         .menu-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
             gap: 15px;
             width: 100%;
             padding-bottom: 40px;
@@ -80,6 +80,7 @@
             align-items: center;
             min-height: 110px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            position: relative;
         }
 
         .menu-card:active {
@@ -91,6 +92,158 @@
         .menu-card h3 { font-size: 14px; margin-bottom: 5px; letter-spacing: 1px; }
         .menu-card span { font-size: 11px; color: #888; }
         .menu-card:active span { color: #333; }
+
+        /* --- ANIMASI & STYLE BADGE PRO LUXURY --- */
+        @keyframes goldShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes lockPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .pro-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #ffd700, #fff8dc, #ffaa00, #ffe600, #b8860b);
+            background-size: 300% 300%;
+            animation: goldShimmer 4s ease infinite;
+            color: #000;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 2px 5px rgba(0,0,0,0.8);
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            text-transform: uppercase;
+            z-index: 5;
+        }
+
+        .pro-badge .lock-icon {
+            display: inline-block;
+            animation: lockPulse 2s infinite ease-in-out;
+        }
+
+        /* --- ANIMASI & STYLE BADGE EXCLUSIVE (LEBIH MEWAH DARI PRO) --- */
+        @keyframes purpleShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes exclusiveGlow {
+            0%, 100% {
+                box-shadow: 0 0 8px rgba(186, 85, 255, 0.6), 0 0 18px rgba(138, 43, 226, 0.5), 0 2px 5px rgba(0,0,0,0.8);
+            }
+            50% {
+                box-shadow: 0 0 18px rgba(224, 170, 255, 1), 0 0 38px rgba(186, 85, 255, 0.8), 0 2px 8px rgba(0,0,0,0.9);
+            }
+        }
+
+        @keyframes gemSpin {
+            0% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.3) rotate(180deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        @keyframes crownFloat {
+            0%, 100% { transform: translateY(0) rotate(-6deg); }
+            50% { transform: translateY(-2px) rotate(6deg); }
+        }
+
+        @keyframes textShimmer {
+            0% { background-position: -100% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes sparkleFloat {
+            0%, 100% { opacity: 0; transform: scale(0.4) translateY(0); }
+            50% { opacity: 1; transform: scale(1) translateY(-3px); }
+        }
+
+        .exclusive-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            padding: 2px;
+            border-radius: 8px;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .exclusive-badge::after {
+            content: "✨";
+            position: absolute;
+            top: -10px;
+            left: -8px;
+            font-size: 11px;
+            animation: sparkleFloat 1.8s ease-in-out infinite;
+        }
+
+        .exclusive-badge-inner {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 7px;
+            background: linear-gradient(135deg, #2d004d, #8a2be2, #c77dff, #e0aaff, #6a00b3, #ba55ff);
+            background-size: 400% 400%;
+            animation: purpleShimmer 3s ease infinite, exclusiveGlow 2.2s ease-in-out infinite;
+            border: 1px solid rgba(230, 190, 255, 0.9);
+        }
+
+        .exclusive-badge .badge-text {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, #fff 0%, #ffd700 25%, #fff 50%, #e0aaff 75%, #fff 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textShimmer 2.5s linear infinite;
+            text-shadow: 0 0 8px rgba(255,255,255,0.4);
+        }
+
+        .exclusive-badge .crown-icon {
+            display: inline-block;
+            font-size: 10px;
+            animation: crownFloat 1.6s ease-in-out infinite;
+        }
+
+        .exclusive-badge .gem-icon {
+            display: inline-block;
+            animation: gemSpin 3s infinite ease-in-out;
+        }
+
+        .menu-card.is-exclusive {
+            border: 2px solid transparent;
+            background:
+                linear-gradient(#111, #111) padding-box,
+                linear-gradient(135deg, #ffd700, #8a2be2, #6a00b3, #e0aaff) border-box;
+            box-shadow: 0 0 6px rgba(186, 85, 255, 0.5);
+        }
+
+        .menu-card.is-exclusive h3,
+        .menu-card.is-exclusive span {
+            background: linear-gradient(90deg, #fff 0%, #ffd700 25%, #fff 50%, #e0aaff 75%, #fff 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: textShimmer 2.5s linear infinite;
+        }
         
         /* --- STYLE HALAMAN KUIS (PILIHAN GANDA) --- */
         #quiz-page {
@@ -258,6 +411,31 @@
             color: #000; 
         }
 
+        /* --- RESPONSIVE: TABLET & LAPTOP/PC --- */
+        @media (min-width: 700px) {
+            .question-box, .options-grid, .controls {
+                max-width: 480px;
+            }
+            .question-box {
+                font-size: 26px;
+                min-height: 180px;
+            }
+            .option-btn {
+                font-size: 20px;
+                padding: 30px 10px;
+            }
+        }
+
+        @media (min-width: 1100px) {
+            .question-box, .options-grid, .controls {
+                max-width: 600px;
+            }
+            .question-box {
+                font-size: 30px;
+                min-height: 220px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -277,6 +455,9 @@
             </div>
             <div class="menu-card" data-category="kanji_n5_p2">
                 <h3>Shiken bunpou</h3><span>bab 9</span>
+               </div>
+            <div class="menu-card" data-category="shiken_kanji_b10">
+                <h3>Shiken kanji</h3><span>bab 10</span>
             </div>
         </div>
     </div>
@@ -380,7 +561,169 @@
   { "question": "にほんごは はつおん [ ] むずかしいです。", "correct": "が", "wrong": ["を", "に", "で"] },
   { "question": "ちょっと じしょを [ ] もらえませんか？", "correct": "かして", "wrong": ["かし", "かす", "かした"] },
   { "question": "にほんごは ぶんぽうは かんたんです。[ ] かんじは むずかしいです。", "correct": "でも", "wrong": ["それで", "そして", "だから"] }
-            ], 
+             ],
+            shiken_kanji_b10: [ 
+  {
+    "question": "「ようび」の正しい漢字はどれですか？",
+    "correct": "曜日",
+    "wrong": ["躍日", "曜目", "燿日"]
+  },
+  {
+    "question": "「じかん」の正しい漢字はどれですか？",
+    "correct": "時間",
+    "wrong": ["侍間", "寺間", "待間"]
+  },
+  {
+    "question": "「ひよう」の正しい漢字は？",
+    "correct": "費用",
+    "wrong": ["費要", "買用", "費角"]
+  },
+  {
+    "question": "「毎月」の正しい読み方は？(Dalam konteks jadwal rutin)",
+    "correct": "まいつき",
+    "wrong": ["まいげつ", "まいがつ", "まいにち"]
+  },
+  {
+    "question": "「こうみんかん」の正しい漢字は？",
+    "correct": "公民館",
+    "wrong": ["公民菅", "交民館", "公明館"]
+  },
+  {
+    "question": "「といあわせ」の正しい漢字は？",
+    "correct": "問い合わせ",
+    "wrong": ["伺い合わせ", "間い合わせ", "向い合わせ"]
+  },
+  {
+    "question": "「しゅん」の正しい漢字はどれ？",
+    "correct": "旬",
+    "wrong": ["匂", "句", "殉"]
+  },
+  {
+    "question": "「あじわう」の正しい漢字は？",
+    "correct": "味わう",
+    "wrong": ["昧わう", "呼わう", "吸わう"]
+  },
+  {
+    "question": "「ちょうりしつ」の正しい漢字は？",
+    "correct": "調理室",
+    "wrong": ["調査室", "調里室", "訓理室"]
+  },
+  {
+    "question": "「かく」の正しい漢字は？(Contoh: __自)",
+    "correct": "各",
+    "wrong": ["名", "客", "洛"]
+  },
+  {
+    "question": "「せんちゃく」の正しい漢字は？",
+    "correct": "先着",
+    "wrong": ["先看", "失着", "先若"]
+  },
+  {
+    "question": "「しょどう」の正しい漢字は？",
+    "correct": "書道",
+    "wrong": ["晝道", "書首", "筆道"]
+  },
+  {
+    "question": "「日時」の正しい読み方は？",
+    "correct": "にちじ",
+    "wrong": ["にちとき", "ひじ", "ひとき"]
+  },
+  {
+    "question": "「がいこくじんむけ」の正しい漢字は？",
+    "correct": "外国人向け",
+    "wrong": ["外国人向げ", "外国人村け", "外国人同け"]
+  },
+  {
+    "question": "「たいけんきょうしつ」の正しい漢字は？",
+    "correct": "体験教室",
+    "wrong": ["休験教室", "体険教室", "体驗教室"]
+  },
+  {
+    "question": "「みにつける」の正しい漢字は？",
+    "correct": "身につける",
+    "wrong": ["見につける", "自につける", "耳につける"]
+  },
+  {
+    "question": "「どうぐ」の正しい漢字は？",
+    "correct": "道具",
+    "wrong": ["道貝", "導具", "首具"]
+  },
+  {
+    "question": "「けんがく」の正しい漢字は？",
+    "correct": "見学",
+    "wrong": ["貝学", "見覚", "視学"]
+  },
+  {
+    "question": "「もうしこみ」の正しい漢字は？",
+    "correct": "申し込み",
+    "wrong": ["伸し込み", "押し込み", "神し込み"]
+  },
+  {
+    "question": "「あいきどう」の正しい漢字は？",
+    "correct": "合気道",
+    "wrong": ["会気道", "今気道", "合気首"]
+  },
+  {
+    "question": "「たいいくしつ」の正しい漢字は？",
+    "correct": "体育室",
+    "wrong": ["休育室", "体有室", "体育屋"]
+  },
+  {
+    "question": "「どうぎ」の正しい漢字は？",
+    "correct": "道着",
+    "wrong": ["道看", "導着", "首着"]
+  },
+  {
+    "question": "「ひつよう」の正しい漢字は？",
+    "correct": "必要",
+    "wrong": ["必用", "泌要", "心要"]
+  },
+  {
+    "question": "「さいしょ」の正しい漢字は？",
+    "correct": "最初",
+    "wrong": ["最好", "撮初", "最処"]
+  },
+  {
+    "question": "「きょうみ」の正しい漢字は？",
+    "correct": "興味",
+    "wrong": ["興未", "奥味", "挙味"]
+  },
+  {
+    "question": "「ぜんぶ」の正しい漢字は？",
+    "correct": "全部",
+    "wrong": ["金部", "企部", "全陪"]
+  },
+  {
+    "question": "「しょうかい」の正しい漢字は？",
+    "correct": "紹介",
+    "wrong": ["沼介", "招介", "紹会"]
+  },
+  {
+    "question": "「ぼご」の正しい漢字は？",
+    "correct": "母語",
+    "wrong": ["毎語", "毋語", "母話"]
+  },
+  {
+    "question": "「いみ」の正しい漢字は？",
+    "correct": "意味",
+    "wrong": ["意未", "意見", "異味"]
+  },
+  {
+    "question": "「うごきやすい」の正しい漢字は？",
+    "correct": "動きやすい",
+    "wrong": ["働きやすい", "重きやすい", "勘きやすい"]
+  }
+            ],
+        };
+
+        // --- PENGATURAN PASSWORD DECK PRO ---
+        const deckPasswords = {
+             // <-- CONTOH DEMO, ganti/hapus sesuai kebutuhan
+        };
+
+        // --- PENGATURAN PASSWORD DECK EXCLUSIVE (tier di atas Pro) ---
+        const exclusivePasswords = {
+            shiken_kanji_b10: "xyzz", // <-- CONTOH DEMO, ganti/hapus sesuai kebutuhan
         };
 
         const homePage = document.getElementById('home-page');
@@ -503,12 +846,51 @@
             }
         });
 
+        document.querySelectorAll('.menu-card').forEach(card => {
+            const category = card.getAttribute('data-category');
+            if (exclusivePasswords[category]) {
+                const badge = document.createElement('div');
+                badge.className = 'exclusive-badge';
+                badge.innerHTML = `
+                    <div class="exclusive-badge-inner">
+                        <span class="crown-icon">👑</span>
+                        <span class="badge-text">Exclusive</span>
+                        <span class="gem-icon">💎</span>
+                    </div>
+                `;
+                card.appendChild(badge);
+                card.classList.add('is-exclusive');
+            } else if (deckPasswords[category]) {
+                const badge = document.createElement('div');
+                badge.className = 'pro-badge';
+                badge.innerHTML = 'PRO <span class="lock-icon">🔒</span>';
+                card.appendChild(badge);
+            }
+        });
+
         document.querySelectorAll('.menu-card').forEach(menu => {
             menu.addEventListener('click', () => {
                 const category = menu.getAttribute('data-category');
                 const title = menu.querySelector('h3').innerText;
                 const subtitle = menu.querySelector('span').innerText;
-                loadCategory(category, title, subtitle);
+
+                if (exclusivePasswords[category]) {
+                    const userInput = prompt(`Deck "${title}" ini EXCLUSIVE 💎, minta password ke : fadir,Razan,arival:`);
+                    if (userInput === exclusivePasswords[category]) {
+                        loadCategory(category, title, subtitle);
+                    } else if (userInput !== null) {
+                        alert("Yah, passwordnya salah! Coba inget-inget lagi deh.");
+                    }
+                } else if (deckPasswords[category]) {
+                    const userInput = prompt(`Deck "${title}" digembok, minta password ke : fadir,Razan,arival:`);
+                    if (userInput === deckPasswords[category]) {
+                        loadCategory(category, title, subtitle);
+                    } else if (userInput !== null) {
+                        alert("Yah, passwordnya salah! Coba inget-inget lagi deh.");
+                    }
+                } else {
+                    loadCategory(category, title, subtitle);
+                }
             });
         });
     </script>
